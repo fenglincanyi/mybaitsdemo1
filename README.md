@@ -1,4 +1,7 @@
 ## mybatis 基础
+> 参考资料：
+https://github.com/brianway/springmvc-mybatis-learning
+
 ### mybatis 介绍
 mybatis 是一个持久层框架，是apache下的开源项目。
 它是一个半自动化框架，与Hibernate相比，需要开发者手动写sql，这样更为灵活配置
