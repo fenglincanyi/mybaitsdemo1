@@ -9,4 +9,10 @@ import com.gjr.po.User;
 public interface UserMapper {
 
     User findUserById(Integer id);
+
+    void insertUser(User user);
+
+    void updateUser(User user);
+
+    void deleteUser(Integer id);
 }
