@@ -106,4 +106,43 @@ public class UserMapperTest {
         sqlSession.close();
     }
 
+    /**
+     * 包装类型，输入映射测试
+     */
+    @Test
+    public void countUserCondition() throws Exception {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        UserQueryVo userQueryVo = new UserQueryVo();
+        UserCustom userCustom = new UserCustom();
+        userCustom.setUsername("明");// 设置模糊关键字
+        userCustom.setPassword("888888");
+        userQueryVo.setUserCustom(userCustom);
+
+        int count = sqlSession.getMapper(UserMapper.class).countUserCondition(userQueryVo);
+
+        System.out.println(count);
+
+        sqlSession.close();
+    }
+
+    /**
+     * 查询出来的列名 和 po 属性不一致，使用 resultMap进行输出映射
+     *
+     * DEBUG [main] - ==>  Preparing: SELECT username username_, password password_ FROM userinfo WHERE id=?
+     * DEBUG [main] - ==> Parameters: 2(Integer)
+     * DEBUG [main] - <==      Total: 1
+     * User{id=null, username='李四', password='222222'}
+     */
+    @Test
+    public void queryUserByResultMap() throws Exception {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        User user = sqlSession.getMapper(UserMapper.class).queryUserByResultMap(2);
+
+        System.out.println(user);
+
+        sqlSession.close();
+    }
+
 }

@@ -19,4 +19,15 @@
     <select id="queryUserList" resultType="com.gjr.po.UserCustom"><!--多条件查询-->
         SELECT * FROM userinfo WHERE password=#{userCustom.password} AND username LIKE '%${userCustom.username}%'
     </select>
+    <select id="countUserCondition" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM userinfo WHERE password=#{userCustom.password} AND username LIKE '%${userCustom.username}%'
+    </select>
+    <select id="queryUserByResultMap" resultMap="testFieldAlias">
+        SELECT username username_, password password_ FROM userinfo WHERE id=#{id}
+    </select>
+
+    <resultMap id="testFieldAlias" type="User">
+        <id column="username_" property="username"/>
+        <id column="password_" property="password"/>
+    </resultMap>
 </mapper>
