@@ -7,6 +7,12 @@
     <!-- 加载 mysql 数据源-->
     <properties resource="db.properties"/>
 
+    <!--别名-->
+    <typeAliases>
+        <!--批量指定别名：类名就是别名，大小写都可以识别：在 xxxmapper.xml 文件可以方便使用-->
+        <package name="com.gjr.po"/>
+    </typeAliases>
+
     <environments default="development">
         <environment id="development">
             <!-- 使用jdbc事务管理，事务控制由mybatis-->
@@ -20,7 +26,7 @@
             </dataSource>
         </environment>
     </environments>
-    <mappers>
+    <mappers> <!-- 使用 mapper.xml 动态生成 mapper接口的代理类来进行操作，不需要自己实现-->
         <!--单个mapper-->
         <!--<mapper resource="com.gjr.mapper.UserMapper.xml" />-->
         <!--批量mapper-->
