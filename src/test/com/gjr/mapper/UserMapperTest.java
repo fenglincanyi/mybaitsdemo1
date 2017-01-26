@@ -1,6 +1,8 @@
 package com.gjr.mapper;
 
 import com.gjr.po.User;
+import com.gjr.po.UserCustom;
+import com.gjr.po.UserQueryVo;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -9,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * Created by geng
@@ -67,6 +70,39 @@ public class UserMapperTest {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         sqlSession.getMapper(UserMapper.class).deleteUser(7);
         sqlSession.commit();
+        sqlSession.close();
+    }
+
+    /**
+     * 模糊查询
+     */
+    @Test
+    public void queryUserByName() throws Exception {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        List<User> users = sqlSession.getMapper(UserMapper.class).queryUserByName("明");
+
+        System.out.println(users);
+
+        sqlSession.close();
+    }
+
+    /**
+     * 包装类型，输入映射测试
+     */
+    @Test
+    public void queryUserList() throws Exception {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        UserQueryVo userQueryVo = new UserQueryVo();
+        UserCustom userCustom = new UserCustom();
+        userCustom.setUsername("明");// 设置模糊关键字
+        userCustom.setPassword("888888");
+        userQueryVo.setUserCustom(userCustom);
+
+        List<UserCustom> users = sqlSession.getMapper(UserMapper.class).queryUserList(userQueryVo);
+
+        System.out.println(users);
+
         sqlSession.close();
     }
 

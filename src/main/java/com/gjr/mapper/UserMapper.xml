@@ -13,4 +13,10 @@
     <select id="findUserById" parameterType="integer" resultType="User">
         SELECT * FROM userinfo WHERE id=#{id}
     </select>
+    <select id="queryUserByName" resultType="User"><!-- 使用 ${value} 进行连接，且必须是 value -->
+        SELECT * FROM userinfo WHERE username LIKE '%${value}%'
+    </select>
+    <select id="queryUserList" resultType="com.gjr.po.UserCustom"><!--多条件查询-->
+        SELECT * FROM userinfo WHERE password=#{userCustom.password} AND username LIKE '%${userCustom.username}%'
+    </select>
 </mapper>
