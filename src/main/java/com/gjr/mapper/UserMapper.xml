@@ -30,4 +30,62 @@
         <id column="username_" property="username"/>
         <id column="password_" property="password"/>
     </resultMap>
+
+
+
+
+
+    <!--              动态sql                    -->
+
+    <!-- if -->
+    <select id="queryUserList1" resultType="com.gjr.po.UserCustom">
+        SELECT * FROM userinfo
+        <where>
+            <if test="userCustom != null">
+                <if test="userCustom.username != null and userCustom.username != ''">
+                    AND username LIKE '%${userCustom.username}%'
+                </if>
+                <if test="userCustom.password != null and userCustom.password != ''">
+                    AND password=#{userCustom.password}
+                </if>
+            </if>
+        </where>
+    </select>
+
+    <!-- sql 片段，重用 -->
+    <select id="queryUserList2" resultType="com.gjr.po.UserCustom">
+        SELECT * FROM userinfo
+        <where>
+            <include refid="like_sql" />
+        </where>
+    </select>
+
+    <sql id="like_sql">
+        <if test="userCustom != null">
+            <if test="userCustom.username != null and userCustom.username != ''">
+                AND username LIKE '%${userCustom.username}%'
+            </if>
+            <if test="userCustom.password != null and userCustom.password != ''">
+                AND password=#{userCustom.password}
+            </if>
+        </if>
+    </sql>
+
+
+    <!-- foreach -->
+    <select id="queryUserList3" resultType="UserCustom">
+        SELECT * FROM userinfo
+        <where>
+            <include refid="in_sql"/>
+        </where>
+    </select>
+
+    <sql id="in_sql">
+        <if test="ids != null">  <!-- AND id IN (1,3,4...)-->
+            <foreach collection="ids" item="userid" open="AND id IN (" close=")" separator=",">
+                #{userid}
+            </foreach>
+        </if>
+    </sql>
+
 </mapper>

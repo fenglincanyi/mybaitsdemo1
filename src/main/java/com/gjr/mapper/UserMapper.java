@@ -31,4 +31,13 @@ public interface UserMapper {
 
     // 使用 resultMap 测试
     User queryUserByResultMap(Integer id);
+
+    // 测试 <if> <where>
+    List<UserCustom> queryUserList1(UserQueryVo userQueryVo);
+
+    // 测试 <sql>片段
+    List<UserCustom> queryUserList2(UserQueryVo userQueryVo);
+
+    // 测试 <foreach>
+    List<UserCustom> queryUserList3(UserQueryVo userQueryVo);
 }

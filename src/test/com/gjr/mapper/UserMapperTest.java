@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -145,4 +146,74 @@ public class UserMapperTest {
         sqlSession.close();
     }
 
+
+
+    /**
+     * 测试 <if></if> ,<where></where>
+     * DEBUG [main] - ==>  Preparing: SELECT * FROM userinfo WHERE password=?    此处确实只传了一个 !!!
+     * DEBUG [main] - ==> Parameters: 888888(String)
+     * DEBUG [main] - <==      Total: 1
+     * [User{id=3, username='小明', password='888888'}]
+     */
+    @Test
+    public void queryUserList1() throws Exception {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        UserQueryVo userQueryVo = new UserQueryVo();
+        UserCustom userCustom = new UserCustom();
+//        userCustom.setUsername("明");// 测试，只传一个条件
+        userCustom.setPassword("888888");
+        userQueryVo.setUserCustom(userCustom);
+
+        List<UserCustom> users = sqlSession.getMapper(UserMapper.class).queryUserList1(userQueryVo);
+
+        System.out.println(users);
+
+        sqlSession.close();
+    }
+
+    /**
+     * 测试 <sql></sql>
+     * DEBUG [main] - ==>  Preparing: SELECT * FROM userinfo WHERE password=?
+     * DEBUG [main] - ==> Parameters: 888888(String)
+     * DEBUG [main] - <==      Total: 1
+     * [User{id=3, username='小明', password='888888'}]
+     */
+    @Test
+    public void queryUserList2() throws Exception {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        UserQueryVo userQueryVo = new UserQueryVo();
+        UserCustom userCustom = new UserCustom();
+//        userCustom.setUsername("明");// 测试，只传一个条件
+        userCustom.setPassword("888888");
+        userQueryVo.setUserCustom(userCustom);
+
+        List<UserCustom> users = sqlSession.getMapper(UserMapper.class).queryUserList2(userQueryVo);
+
+        System.out.println(users);
+
+        sqlSession.close();
+    }
+
+    /**
+     * 测试 <foreach></foreach>
+     * DEBUG [main] - ==>  Preparing: SELECT * FROM userinfo WHERE id IN ( ? , ? , ? )
+     * DEBUG [main] - ==> Parameters: 2(Integer), 3(Integer), 9(Integer)
+     * DEBUG [main] - <==      Total: 3
+     * [User{id=2, username='李四', password='222222'}, User{id=3, username='小明', password='888888'}, User{id=9, username='明地', password='323231'}]
+     */
+    @Test
+    public void queryUserList3() throws Exception {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        UserQueryVo userQueryVo = new UserQueryVo();
+        userQueryVo.setIds(Arrays.asList(2, 3, 9)); // 注意设置 ids
+
+        List<UserCustom> users = sqlSession.getMapper(UserMapper.class).queryUserList3(userQueryVo);
+
+        System.out.println(users);
+
+        sqlSession.close();
+    }
 }
