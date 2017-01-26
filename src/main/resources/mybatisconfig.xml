@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!-- 加载 mysql 数据源-->
+    <properties resource="db.properties"/>
+
+    <environments default="development">
+        <environment id="development">
+            <!-- 使用jdbc事务管理，事务控制由mybatis-->
+            <transactionManager type="JDBC"/>
+            <!-- 数据库连接池,由mybatis管理-->
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <!--单个mapper-->
+        <!--<mapper resource="com.gjr.mapper.UserMapper.xml" />-->
+        <!--批量mapper-->
+        <package name="com.gjr.mapper"/>
+    </mappers>
+</configuration>
+
+        <!-- 参照 mybatis 文档配置： 2.1.2 Building SqlSessionFactory from XML-->
